@@ -10,6 +10,7 @@ urlpatterns = [
     # name the URL
 
     # path for about view
+    
 
     # path for contact us view
 
