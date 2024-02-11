@@ -19,6 +19,7 @@ urlpatterns = [
     # path for registration
 
     # path for login
+    path(route="login/", view=views.login_request, name="login"),
 
     # path for logout
 

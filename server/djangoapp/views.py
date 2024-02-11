@@ -55,6 +55,7 @@ def login_request(request):
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
+    
 
 
 # Create a `registration_request` view to handle sign up request
