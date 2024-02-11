@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import related models
-# from .restapis import related methods
+# from .models import User
+# from .restapis import rela
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -12,8 +12,6 @@ import json
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
-
-
 
 def static_page(request):
     context = {}
@@ -48,19 +46,33 @@ def login_request(request):
     else:
         return render(request, "django/index.html", context)
 
-
-
 def logout_request(request):
     logout(request)
     return redirect("djangoapp:index")
 
 
-# Create a `registration_request` view to handle sign up request
 def registration_request(request):
     context = {}
     if request.method == "GET":
-        return render(request, "django/registration.html", context)
-
+        return render(request, "djangoapp/registration.html", context)
+    elif request.method == "POST":
+        username, firstname, lastname, password = request.POST.values()
+        user_exists = False
+        try:
+            user = User.objects.get(username=username)
+            if user is not None:
+                user_exists = True
+        except:
+            logger.debug(f"{username} is already taken")
+        
+        if not user_exists:
+            try:
+                user = User.objects.create_user(username=username, first_name=firstname, last_name=lastname, password=password)
+            except Error:
+                logger.debug(f"Couldn't create user, because {Error}")
+            return redirect("djangoapp:index")
+        else:
+            return render(request, "djangoapp/registration.html", context)
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
