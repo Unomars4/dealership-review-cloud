@@ -23,7 +23,7 @@ class CarModel(models.Model):
     dealer_id = models.IntegerField()
     name = models.CharField(null=False, max_length=30)
     car_type = models.CharField(max_length=20, choices=CAR_TYPES, default=SEDAN)
-    year = models.DateField(now)
+    year = models.DateField(null=True)
 
     def __str__(self):
         return f"Name: {self.name}, Type: {self.car_type}, Year: {self.year}, Make: {self.car_make}"
