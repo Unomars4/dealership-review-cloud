@@ -17,20 +17,18 @@
     <nav class="navbar navbar-expand-lg bg-body-primary">
         <div class="container-fluid">
             <a class="navbar-brand link-secondary" href="#">Dealership Review</a>
-            <div class="collapse navbar-collapse">
+            <div class="">
                 <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
                     <li>
                         <a class="btn btn-link" href="about">About</a>
                         <a class="btn btn-link" href="contact">Contact</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li>
                         <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                        <a class="btn btn-link" href="#">Logout</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>
                     {% else %}
                     <li>
-                        <form class="form-inline" action="#" method="post">
+                        <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
                             {% csrf_token %}
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Username" name="username" >

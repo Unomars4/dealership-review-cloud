@@ -39,10 +39,10 @@ def contact(request):
 def login_request(request):
     context = {}
     if request.method == "POST":
-        username = request.POST["user"]
+        username = request.POST["username"]
         password = request.POST["psw"]
 
-        user = authenticate(username, password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect("djangoapp:index")
