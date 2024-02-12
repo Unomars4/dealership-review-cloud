@@ -89,7 +89,7 @@ def get_dealer_details(request, dealer_id):
     if request.method == "GET":
         url = os.environ.get("REVIEWS_API")
         dealer_reviews = get_dealer_reviews_from_cf(url, dealer_id)
-        reviews = " \n".join([review.review for review in dealer_reviews])
+        reviews = "\n".join([f"{review.review},  {review.sentiment}" for review in dealer_reviews])
         return HttpResponse(reviews)
 
 # Create a `add_review` view to submit a review

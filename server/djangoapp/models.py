@@ -47,7 +47,7 @@ class CarDealer:
 
 class DealerReview:
     
-    def __init__(self, id, name, purchase, review, dealership):
+    def __init__(self, id, name, purchase, review, dealership, sentiment):
         self.id = id
         self.name = name
         self.purchase = purchase
@@ -57,7 +57,7 @@ class DealerReview:
         self.car_make = None
         self.car_model = None
         self.car_year = None
-        self.sentiment = None
+        self.sentiment = sentiment
 
     def __str__(self):
         return f"{self.name}, wrote '{self.review}'. Which is a {self.sentiment} review"
