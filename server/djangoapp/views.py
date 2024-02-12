@@ -85,11 +85,12 @@ def get_dealerships(request):
 
 
 def get_dealer_details(request, dealer_id):
+    context = {}
     if request.method == "GET":
         url = os.environ.get("REVIEWS_API")
         dealer_reviews = get_dealer_reviews_from_cf(url, dealer_id)
-        reviews = "\n".join([f"{review.review},  {review.sentiment}" for review in dealer_reviews])
-        return HttpResponse(reviews)
+        context["dealer_reviews"] = dealer_reviews
+        return render(request, 'djangoapp/dealer_details.html', context)
 
 def add_review(request, dealer_id):
     url = os.environ.get("POST_REVIEW")
