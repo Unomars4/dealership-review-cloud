@@ -72,7 +72,7 @@ def get_dealer_reviews_from_cf(url, dealerId):
         for review in reviews:
             review_obj = DealerReview(id=review["id"], name=review["name"], purchase=review["purchase"],
                                       review=review["review"], purchase_date=review["purchase_date"], dealership=review["dealership"],
-                                      car_make=review["car_make"], car_model=review["car_model"], car_year=review["car_year"], sentiment=review["sentiment"])
+                                      car_make=review["car_make"], car_model=review["car_model"], car_year=review["car_year"])
             results.append(review_obj)
     return results
 

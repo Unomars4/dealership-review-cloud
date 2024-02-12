@@ -47,17 +47,17 @@ class CarDealer:
 
 class DealerReview:
     
-    def __init__(self, id, name, purchase, review, purchase_date, dealership, car_make, car_model, car_year, sentiment):
+    def __init__(self, id, name, purchase, review, dealership):
         self.id = id
         self.name = name
         self.purchase = purchase
         self.review = review
-        self.purchase_date = purchase_date
+        self.purchase_date = None
         self.dealership = dealership
-        self.car_make = car_make
-        self.car_model = car_model
-        self.car_year = car_year
-        self.sentiment = sentiment
+        self.car_make = None
+        self.car_model = None
+        self.car_year = None
+        self.sentiment = None
 
     def __str__(self):
         return f"{self.name}, wrote '{self.review}'. Which is a {self.sentiment} review"
