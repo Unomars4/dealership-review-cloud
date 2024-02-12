@@ -44,7 +44,7 @@
         </div>
     </nav>
 
-    <table class="table table-striped" id="table">
+    <table class="table table-striped" id="table" data-filter-control="true">
         <thead>
             <tr>
                 <th data-field="id">ID</th>
@@ -52,7 +52,7 @@
                 <th data-field="city">City</th>
                 <th data-field="address">Address</th>
                 <th data-field="zip">Zip</th>
-                <th data-field="state">State</th>
+                <th data-field="state" data-filter-control="select">State</th>
             </tr>
         </thead>
         <tbody>
@@ -69,5 +69,9 @@
         </tbody>
     </table>
 </body>
-
+<script>
+    $(function() {
+        $('#table').bootstrapTable()
+    })
+</script>
 </html>
