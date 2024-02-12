@@ -93,8 +93,8 @@ def analyze_review_sentiments(dealer_review):
     sentiment = get_request(f"{url}/v1/analyze", text=dealer_review, api_key=api_key, language=lang,
                             features=features, version=version, return_analyzed_text=return_analyzed_text)
     
-    if "sentiment" in sentiment:
-        return sentiment["sentiment"]["document"]["label"]
+    if "error" in sentiment:
+        return sentiment["error"]
     
-    return "Unable to detect sentiment"
+    return sentiment["sentiment"]["document"]["label"]
 
