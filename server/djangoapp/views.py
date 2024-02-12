@@ -94,12 +94,10 @@ def get_dealer_details(request, dealer_id):
 
 def add_review(request, dealer_id):
     url = os.environ.get("POST_REVIEW")
-    
+
     if request.method == "POST":
         if request.user.is_authenticated:
-            review = {t
-            for field in request.body.keys():
-                review[field] = request.body[field].body.yearyear''""CAcar_                ,            }
+            review = json.loads(request.body)
             json_payload = {"review":review}
             response = post_request(url, json_payload, dealerId=dealer_id)
             return HttpResponse(response)

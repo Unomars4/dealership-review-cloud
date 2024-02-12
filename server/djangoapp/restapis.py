@@ -27,7 +27,6 @@ def get_request(url, **kwargs):
 
 def post_request(url, json_payload, **kwargs):
     response = None
-    
     try:
         response = requests.post(url, params=kwargs, json=json_payload)
     except:
