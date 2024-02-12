@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import User
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -94,9 +94,23 @@ def get_dealer_details(request, dealer_id):
 
 def add_review(request, dealer_id):
     url = os.environ.get("POST_REVIEW")
-    if request.user is not None:
-        review = {}
-        json_payload = {"review":review}
-        response = post_request(url, json_payload, dealerId=dealer_id)
-        return HttpResponse(response)        
+    
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            review = {
+                "id": request.body.id,
+                "name": request.body.name,
+                "dealership": request.body.dealership,
+                "review": request.body.review,
+                "purchase": request.body.purchase,
+                "purchase_date": request.body.purchase_date
+                "car_make": request.body.car_make,
+                "car_model": request.body.car
+
+: requrequest.body.yearyear''""CAcar_                ,            }
+            json_payload = {"review":review}
+            response = post_request(url, json_payload, dealerId=dealer_id)
+            return HttpResponse(response)
+        else:
+            return HttpResponse("User not logged in")        
 

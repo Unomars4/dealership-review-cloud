@@ -26,9 +26,12 @@ def get_request(url, **kwargs):
     return json_data
 
 def post_request(url, json_payload, **kwargs):
+    response = None
+    
     try:
         response = requests.post(url, params=kwargs, json=json_payload)
     except:
+        print(url, json_payload, kwargs)
         print("Network error occurred")
     
     return response
