@@ -97,17 +97,9 @@ def add_review(request, dealer_id):
     
     if request.method == "POST":
         if request.user.is_authenticated:
-            review = {
-                "id": request.body.id,
-                "name": request.body.name,
-                "dealership": request.body.dealership,
-                "review": request.body.review,
-                "purchase": request.body.purchase,
-                "purchase_date": request.body.purchase_date
-                "car_make": request.body.car_make,
-                "car_model": request.body.car
-
-: requrequest.body.yearyear''""CAcar_                ,            }
+            review = {t
+            for field in request.body.keys():
+                review[field] = request.body[field].body.yearyear''""CAcar_                ,            }
             json_payload = {"review":review}
             response = post_request(url, json_payload, dealerId=dealer_id)
             return HttpResponse(response)
