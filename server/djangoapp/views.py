@@ -11,6 +11,10 @@ import logging
 import json
 import os
 
+dealers_url = os.environ.get("DEALERSHIPS_API")
+reviews_url = os.environ.get("REVIEWS_API")
+post_review_url = os.environ.get("POST_REVIEW")
+
 logger = logging.getLogger(__name__)
 
 def static_page(request):
@@ -78,8 +82,7 @@ def get_dealerships(request):
     context = {}
 
     if request.method == "GET":
-        url = os.environ.get("DEALERSHIPS_API")
-        dealerships = get_dealers_from_cf(url)
+        dealerships = get_dealers_from_cf(dealers_url)
         context["dealerships"] = dealerships
         return render(request, 'djangoapp/index.html', context)
 
@@ -87,19 +90,21 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        url = os.environ.get("REVIEWS_API")
-        dealer_reviews = get_dealer_reviews_from_cf(url, dealer_id)
+        dealerships = get_dealers_from_cf(dealers_url)
+        dealer_details = [dealer for dealer in dealerships if dealer.id == dealer_id]
+        dealer_reviews = get_dealer_reviews_from_cf(reviews_url, dealer_id)
+        context["dealer"] = dealer_details
+        context["dealer_id"] = dealer_id
         context["dealer_reviews"] = dealer_reviews
         return render(request, 'djangoapp/dealer_details.html', context)
 
 def add_review(request, dealer_id):
-    url = os.environ.get("POST_REVIEW")
-
+    
     if request.method == "POST":
         if request.user.is_authenticated:
             review = json.loads(request.body)
             json_payload = {"review":review}
-            response = post_request(url, json_payload, dealerId=dealer_id)
+            response = post_request(post_review_url, json_payload, dealerId=dealer_id)
             return HttpResponse(response)
         else:
             return HttpResponse("User not logged in")        
