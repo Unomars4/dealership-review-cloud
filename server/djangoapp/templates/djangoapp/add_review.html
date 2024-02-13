@@ -19,8 +19,8 @@
                       <input type="textarea" name="review" class="form-control" id="review" placeholder="Enter your opinion" >
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="purchase">
-                        <label class="form-check-label" for="purchase">Has purchased the car from {{dealer.full_name}}? <span>(select purchased car information below if checked)</span></label>
+                        <input name="purchase" type="checkbox" class="form-check-input" id="purchase">
+                        <label class="form-check-label" for="purchase">Has purchased the car from {{dealer.full_name}}? <span class="text-secondary">(select purchased car information below if checked)</span></label>
                       </div>
                     <div class="mb-3">
                         <label class="form-label" for="car">Select your car (model-make-year):</label>
@@ -32,10 +32,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="purchasedate" class="form-label">Select Your Purchase Date:</label>
-                        <input type="date" name="purchasedate" class="form-control" id="purchasedate" >
+                        <input type="text" name="purchasedate" class="date-own form-control" id="purchasedate" >
                     </div>   
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
         </main>
     </body>
+    <script>
+        $('.date-own').datepicker({
+         format: 'mm/dd/yyyy'
+       });
+    </script>    
 </html>

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import User
+from .models import CarMake, CarModel
 from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -10,6 +10,7 @@ from datetime import datetime
 import logging
 import json
 import os
+import random
 
 dealers_url = os.environ.get("DEALERSHIPS_API")
 reviews_url = os.environ.get("REVIEWS_API")
@@ -93,25 +94,45 @@ def get_dealer_details(request, dealer_id):
         dealerships = get_dealers_from_cf(dealers_url)
         dealer_details = [dealer for dealer in dealerships if dealer.id == dealer_id]
         dealer_reviews = get_dealer_reviews_from_cf(reviews_url, dealer_id)
-        context["dealer"] = dealer_details
+        context["dealer"] = dealer_details[0]
         context["dealer_id"] = dealer_id
         context["dealer_reviews"] = dealer_reviews
         return render(request, 'djangoapp/dealer_details.html', context)
 
 def add_review(request, dealer_id):
-
+    context = {}
+    
     if request.method == "GET":
-        context = {}
+        
         dealerships = get_dealers_from_cf(dealers_url)
         dealer_details = [dealer for dealer in dealerships if dealer.id == dealer_id]
+        context["cars"] = CarModel.objects.filter(dealer_id=dealer_id)
         context["dealer"] = dealer_details[0]
+        
         return render(request, "djangoapp/add_review.html", context)
+    
     elif request.method == "POST":
+        data = request.POST
+        print(data)
+        
         if request.user.is_authenticated:
-            review = json.loads(request.body)
-            json_payload = {"review":review}
+            
+            car_data = CarModel.objects.get(id = data["car"][0])
+            car_make = CarMake.objects.get(id = car_data.car_make_id)
+            review = {
+                "id": random.randint(1,10000), 
+                "dealership": dealer_id,
+                "review": data["review"][0],
+                "car_make": car_data[1],
+                "car_model": car_data[0],
+                "car_year": car_data[2],
+                "purchase": data["review"],
+                "purchase_date": data["review"]
+            } 
+            json_payload = review
             response = post_request(post_review_url, json_payload, dealerId=dealer_id)
-            return HttpResponse(response)
+            
+            return redirect('djangoapp/dealer_details.html', dealer_id=dealer_id)
         else:
             return HttpResponse("User not logged in")        
 
