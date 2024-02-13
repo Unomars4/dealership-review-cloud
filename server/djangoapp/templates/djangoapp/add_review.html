@@ -11,6 +11,31 @@
 
 </head>
     <body>
-    <!--Add review form here -->
+        <main class="mx-5">
+                <h3>Add a review about <strong>{{dealer.full_name}}</strong></h3>
+                <form action="{% url 'djangoapp:add_review' dealer.id %}" method="POST">
+                    <div class="mb-3">
+                      <label for="review" class="form-label">Enter the review content:</label>
+                      <input type="textarea" name="review" class="form-control" id="review" placeholder="Enter your opinion" >
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="purchase">
+                        <label class="form-check-label" for="purchase">Has purchased the car from {{dealer.full_name}}? <span>(select purchased car information below if checked)</span></label>
+                      </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="car">Select your car (model-make-year):</label>
+                        <select name="car" id="car" class="form-select" required>
+                            {% for car in cars %}
+                                <option selected value={{car.id}}>{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                            {% endfor %}
+                       </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="purchasedate" class="form-label">Select Your Purchase Date:</label>
+                        <input type="date" name="purchasedate" class="form-control" id="purchasedate" >
+                    </div>   
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+        </main>
     </body>
 </html>
