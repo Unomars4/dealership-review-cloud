@@ -99,8 +99,14 @@ def get_dealer_details(request, dealer_id):
         return render(request, 'djangoapp/dealer_details.html', context)
 
 def add_review(request, dealer_id):
-    
-    if request.method == "POST":
+
+    if request.method == "GET":
+        context = {}
+        dealerships = get_dealers_from_cf(dealers_url)
+        dealer_details = [dealer for dealer in dealerships if dealer.id == dealer_id]
+        context["dealer"] = dealer_details[0]
+        return render(request, "djangoapp/add_review.html", context)
+    elif request.method == "POST":
         if request.user.is_authenticated:
             review = json.loads(request.body)
             json_payload = {"review":review}
