@@ -113,21 +113,21 @@ def add_review(request, dealer_id):
     
     elif request.method == "POST":
         data = request.POST
-        print(data)
         
         if request.user.is_authenticated:
             
             car_data = CarModel.objects.get(id = data["car"][0])
             car_make = CarMake.objects.get(id = car_data.car_make_id)
             review = {
-                "id": random.randint(1,10000), 
+                "id": random.randint(1,10000),
+                "name": "John Doe", 
                 "dealership": dealer_id,
-                "review": data["review"][0],
-                "car_make": car_data[1],
-                "car_model": car_data[0],
-                "car_year": car_data[2],
-                "purchase": data["review"],
-                "purchase_date": data["review"]
+                "review": data["review"],
+                "car_make": car_make.name,
+                "car_model": car_data.name,
+                "car_year": car_data.year.strftime("%Y"),
+                "purchase": data["purchase"][0] == "on",
+                "purchase_date": data["purchasedate"]
             } 
             json_payload = review
             response = post_request(post_review_url, json_payload, dealerId=dealer_id)
