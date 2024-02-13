@@ -5,7 +5,6 @@ from requests.auth import HTTPBasicAuth
 import os
 
 def get_request(url, **kwargs):
-    print(kwargs)
     try:
         if "api_key" in kwargs:
             api_key = kwargs["api_key"]
@@ -30,7 +29,6 @@ def post_request(url, json_payload, **kwargs):
     try:
         response = requests.post(url, params=kwargs, json=json_payload)
     except:
-        print(url, json_payload, kwargs)
         print("Network error occurred")
     
     return response
@@ -50,7 +48,6 @@ def get_dealers_from_cf(url, **kwargs):
         for dealer in dealers:
             # Get its content in `doc` object
             dealer_doc = dealer
-            print("DEaler",dealer_doc)
             # Create a CarDealer object with values in `doc` object
             dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"],
@@ -78,13 +75,13 @@ def get_dealer_by_id_from_cf(url, dealerId):
 def get_dealer_reviews_from_cf(url, dealerId):
     results = []
     json_results = get_request(url, id=dealerId)
-    print(json_results)
     if json_results:
         reviews = json_results
         for review in reviews:
             sentiment = analyze_review_sentiments(review["review"])
             review_obj = DealerReview(id=review["id"], name=review["name"], purchase=review["purchase"],
-                                      review=review["review"], dealership=review["dealership"], sentiment=sentiment)
+                                      review=review["review"], dealership=review["dealership"], sentiment=sentiment,
+                                      car_make=review["car_make"], car_model= review["car_model"], car_year = review["car_year"])
             results.append(review_obj)
     return results
 

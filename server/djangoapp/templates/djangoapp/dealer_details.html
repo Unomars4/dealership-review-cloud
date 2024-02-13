@@ -17,7 +17,7 @@
                         <li>
                             <a class="btn btn-link" href="about">About</a>
                             <a class="btn btn-link" href="contact">Contact</a>
-                            <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer.id%}">Add a review</a>
+                            <a class="btn btn-link" href="{% url 'djangoapp:add_review' dealer_id%}">Add a review</a>
                             <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
                             <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                         </li>
@@ -39,18 +39,20 @@
             </div>
         </nav>
 
-        
-        <main class="card-columns">
-            {% for review in dealer_reviews %}
-            <div class="card">
-                <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left">
-                <div class="card-body">
-                    <h5 class="card-title">{{review.car_make}}, {{review.car_model}}</h5>
-                    <h5 class="card-title">{{review.car_year}}</h5>
-                    <p class="card-text">{{review.review}}</p>
+        <main class="mx-5">
+            <h3 class="mb-3">Reviews for <strong></strong></h3>
+            <div class="card-columns mx-5">
+                {% for review in dealer_reviews %}
+                <div class="card">
+                    <img src="{{MEDIA_URL}}/emoji/{{review.sentiment}}.png" class="card-img-left w-25 h-25">
+                    <div class="mw-100 card-body bg-body-secondary">
+                        <h5 class="card-title">{{review.car_make}}, {{review.car_model}}</h5>
+                        <h5 class="card-title">{{review.car_year}}</h5>
+                        <p class="card-text">{{review.review}}</p>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
+                {% endfor %}
+            </div>            
         </main>
     </body>
 
